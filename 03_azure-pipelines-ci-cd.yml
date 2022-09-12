@@ -254,12 +254,12 @@ stages:
     - task: AzureCLI@2
       displayName: Preview Template Changes (What-If)
       inputs:
-        workingDirectory: $(System.DefaultWorkingDirectory)/arm/
-        azureSubscription: 'WebAppWithDatabaseDemo_spn'
+        azureSubscription: 'Pay-As-You-Go(8a235559-6309-4a29-bb22-ac5d1713c889)'
         scriptType: 'bash'
         scriptLocation: 'inlineScript'
         inlineScript: 'az deployment group what-if --resource-group $(ResourceGroupName) --name rollout01 --template-file  WebSiteSQLDatabase.json --parameters WebSiteSQLDatabase.parameters.json'
         arguments: '-hostingPlanName $(hostingPlanName) -skuName "F1" -skuCapacity 1 -administratorLogin $(Database.Admin) -administratorLoginPassword $(Database.Password) -databaseName $(Database.Name) -collation "SQL_Latin1_General_CP1_CI_AS" -edition "Basic" -maxSizeBytes "1073741824" -requestedServiceObjectiveName "Basic" -webSiteName $(WebAppName) -sqlserverName $(SqlServerName)'
+        workingDirectory: '$(System.DefaultWorkingDirectory)/arm/'
 
     - task: AzureResourceManagerTemplateDeployment@3
       displayName: Deploy ARM templates
@@ -308,7 +308,7 @@ stages:
     - task: AzureRmWebAppDeployment@3
       displayName: Deploy WebApp to Azure
       inputs:
-        azureSubscription: 'WebAppWithDatabaseDemo_spn'
+        azureSubscription: 'Pay-As-You-Go(8a235559-6309-4a29-bb22-ac5d1713c889)'
         appType: 'app'
         WebAppName: '$(WebAppName)'
         Package: '$(System.DefaultWorkingDirectory)/drop/WebApp.zip'
@@ -327,7 +327,7 @@ stages:
     - task: SqlAzureDacpacDeployment@1
       displayName: Deploy DacPac to SQL Azure
       inputs:
-        azureSubscription: 'WebAppWithDatabaseDemo_spn'
+        azureSubscription: 'Pay-As-You-Go(8a235559-6309-4a29-bb22-ac5d1713c889)'
         AuthenticationType: 'server'
         ServerName: '$(SqlServerName).database.windows.net,1433'
         DatabaseName: '$(Database.Name)'
