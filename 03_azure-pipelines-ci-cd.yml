@@ -80,9 +80,11 @@ stages:
       displayName: Prepare analysis on SonarCloud
       enabled: ${{ parameters.runCompletePipeline }}
       inputs:
-        SonarCloud: SonarCloud
-        organization: houssemdellai
-        projectKey: WebAppWithDatabaseDemo
+        SonarCloud: 'newsonar'
+        organization: 'yoglobant'
+        scannerMode: 'MSBuild'
+        projectKey: 'WebAppWithDatabaseDemo-New0'
+        projectName: 'WebAppWithDatabaseDemo-New0'
 
     - task: DotNetCoreCLI@2
       displayName: Build WebApp
@@ -211,10 +213,10 @@ stages:
       displayName: Validate ARM templates
       enabled: ${{ parameters.runCompletePipeline }}
       inputs:
-        azureSubscription: 'WebAppWithDatabaseDemo_spn'
+        azureSubscription: 'Pay-As-You-Go(8a235559-6309-4a29-bb22-ac5d1713c889)'
         action: 'Create Or Update Resource Group'
         resourceGroupName: '$(ResourceGroupName)'
-        location: 'West Europe'
+        location: 'West US 2'
         templateLocation: 'Linked artifact'
         csmFile: '$(System.DefaultWorkingDirectory)/arm/WebSiteSQLDatabase.json'
         csmParametersFile: '$(System.DefaultWorkingDirectory)/arm/WebSiteSQLDatabase.parameters.json'
@@ -263,11 +265,11 @@ stages:
       displayName: Deploy ARM templates
       inputs:
         deploymentScope: 'Resource Group'
-        azureResourceManagerConnection: 'WebAppWithDatabaseDemo_spn'
-        subscriptionId: '4b72ed90-7ca3-4e76-8d0f-31a2c0bee7a3'
+        azureResourceManagerConnection: 'Pay-As-You-Go(8a235559-6309-4a29-bb22-ac5d1713c889)'
+        subscriptionId: '8a235559-6309-4a29-bb22-ac5d1713c889'
         action: 'Create Or Update Resource Group'
         resourceGroupName: '$(ResourceGroupName)'
-        location: 'West Europe'
+        location: 'West US 2'
         templateLocation: 'Linked artifact'
         csmFile: '$(System.DefaultWorkingDirectory)/arm/WebSiteSQLDatabase.json'
         csmParametersFile: '$(System.DefaultWorkingDirectory)/arm/WebSiteSQLDatabase.parameters.json'
@@ -279,10 +281,10 @@ stages:
       enabled: ${{ parameters.runCompletePipeline }}
       continueOnError: true
       inputs:
-        ConnectedServiceNameARM: 'WebAppWithDatabaseDemo_spn'
+        ConnectedServiceNameARM: 'Pay-As-You-Go(8a235559-6309-4a29-bb22-ac5d1713c889)'
         GenerateMethodParameterSetSelection: 'ResourceGroupName'
         ResourceGroupName: '$(ResourceGroupName)'
-        SubscriptionId: '4b72ed90-7ca3-4e76-8d0f-31a2c0bee7a3'
+        SubscriptionId: '8a235559-6309-4a29-bb22-ac5d1713c889'
         EnableGSSscan: true
 
   - job: Deploy_DEV
